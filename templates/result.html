@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Analysis Result</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 1rem; }
+      .container { max-width: 900px; margin: auto; }
+      pre { background:#f6f6f6; padding:1rem; white-space:pre-wrap; overflow-x: auto; }
+      .finding { border-left: 4px solid #ddd; padding: 0.5rem 1rem; margin: 0.5rem 0; }
+      .high { border-color: #d9534f; }
+      .medium { border-color: #f0ad4e; }
+      .low { border-color: #5bc0de; }
+      ul { margin: 0.25rem 0 0 1.2rem; }
+      a.button { display:inline-block; padding:0.7rem 1.2rem; background:#2874a6; color:#fff; text-decoration:none; border-radius:4px; cursor: pointer; }
+      a.button:hover { background:#1e5a8f; }
+      .disclaimer { background:#f9f9f9; border: 1px solid #ddd; border-radius: 4px; padding: 0.8rem; margin-top: 2rem; font-size: 0.85rem; color: #555; }
+      .feedback-link { text-align: center; margin-top: 1rem; }
+      .feedback-link a { color: #2874a6; text-decoration: none; font-size: 0.9rem; }
+      .feedback-link a:hover { text-decoration: underline; }
+      @media (max-width: 600px) {
+        body { margin: 0.5rem; }
+        .container { padding: 0; }
+        a.button { display: block; text-align: center; width: 100%; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+        <h1>Analysis Result</h1>
+        <span style="background:#e8f4f8; color:#2874a6; padding:0.3rem 0.6rem; border-radius:4px; font-size:0.85rem; font-weight:bold;">BETA — Early version</span>
+      </div>
+
+      <h2>Original Message</h2>
+      <pre>{{ message }}</pre>
+
+      <h2>Findings</h2>
+      {% if findings %}
+        {% for f in findings %}
+          <div class="finding {{ f.risk_level }}">
+            <strong>{{ f.label }}</strong> — <em>Risk: {{ f.risk_level|capitalize }}</em>
+            <p>{{ f.solution }}</p>
+            <p><strong>Why this matters:</strong> {{ f.reassurance }}</p>
+            <p><strong>What to do:</strong></p>
+            <ul>
+              {% for step in f.steps %}
+                <li>{{ step }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% endfor %}
+      {% else %}
+        <p>No obvious issues detected by the simple checks. Stay cautious.</p>
+      {% endif %}
+
+      <h2>Next Steps (Everyday Actions)</h2>
+      <ul>
+        {% for s in next_steps %}
+          <li>{{ s }}</li>
+        {% endfor %}
+      </ul>
+
+      <p style="margin-top:1rem;"><a href="/" class="button">Analyze another message</a></p>
+
+      <div class="feedback-link">
+        <a href="https://example.com/feedback" target="_blank">Share feedback (opens form)</a>
+      </div>
+
+      <div class="disclaimer">
+        <strong>Disclaimer:</strong> This tool gives general guidance based on common phishing patterns. It may not catch everything. When in doubt, contact the company directly using official channels.
+      </div>
+    </div>
+  </body>
+</html>
