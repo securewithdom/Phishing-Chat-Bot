@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+﻿from flask import Flask, render_template, request
 import re
 
 app = Flask(__name__)
@@ -6,7 +6,7 @@ app = Flask(__name__)
 # PRIVACY NOTE: This application does NOT store, log, or save any user messages or sender emails.
 # All analysis is performed in-memory and results are sent directly to the user's browser.
 # No database writes, no file logging of user input, no external API calls.
-# The app is fully local and stateless — each request is independent.
+# The app is fully local and stateless â€” each request is independent.
 
 
 def analyze_text(text):
@@ -237,7 +237,7 @@ def generate_solutions():
             "label": "Pressuring or Urgent Tone",
             "risk_level": "high",
             "solution": "Don't rush: treat urgent requests with skepticism.",
-            "reassurance": "It's okay to take a moment — most legitimate organizations won't pressure you.",
+            "reassurance": "It's okay to take a moment â€” most legitimate organizations won't pressure you.",
             "steps": [
                 "Pause and don't reply immediately.",
                 "Verify the sender via an official website or phone number.",
@@ -248,7 +248,7 @@ def generate_solutions():
             "label": "Request for Sensitive or Financial Info",
             "risk_level": "high",
             "solution": "Never share passwords, credit card numbers, or SSNs over email or chat.",
-            "reassurance": "You can protect yourself — legitimate services ask for this only in secure ways.",
+            "reassurance": "You can protect yourself â€” legitimate services ask for this only in secure ways.",
             "steps": [
                 "Do not provide any requested financial or personal details.",
                 "Contact the company using a phone number or website you trust.",
@@ -284,7 +284,7 @@ def generate_solutions():
             "label": "Why this sender might be risky",
             "risk_level": "high",
             "solution": "The sender's address looks malformed or unexpected; treat it with caution.",
-            "reassurance": "You can check carefully — malformed addresses are often harmless but sometimes used in scams.",
+            "reassurance": "You can check carefully â€” malformed addresses are often harmless but sometimes used in scams.",
             "steps": [
                 "Don't reply or click anything from the sender.",
                 "If it claims to be from a company, contact that company using a number or site you know is real.",
@@ -306,7 +306,7 @@ def generate_solutions():
             "label": "Why this sender might be risky",
             "risk_level": "high",
             "solution": "The address appears to mimic a known company by swapping letters for numbers or symbols.",
-            "reassurance": "Scammers often try to look legitimate — you can spot them by checking closely.",
+            "reassurance": "Scammers often try to look legitimate â€” you can spot them by checking closely.",
             "steps": [
                 "Do not click links or reply to the message.",
                 "Compare the sender address carefully with the official company domain.",
@@ -338,7 +338,7 @@ def generate_solutions():
         "Email uses a medium-risk domain extension": {
             "label": "Why this sender might be risky",
             "risk_level": "medium",
-            "solution": "This extension is sometimes used by questionable sites — be cautious.",
+            "solution": "This extension is sometimes used by questionable sites â€” be cautious.",
             "reassurance": "Many legitimate people use these domains, but extra care is helpful.",
             "steps": [
                 "Verify the sender before acting on requests.",
@@ -360,7 +360,7 @@ def generate_solutions():
         "Email domain is not in the safe list": {
             "label": "Why this sender might be risky",
             "risk_level": "medium",
-            "solution": "The sender's domain is outside common trusted lists — that can increase risk.",
+            "solution": "The sender's domain is outside common trusted lists â€” that can increase risk.",
             "reassurance": "This alone isn't proof of fraud, but it's a useful warning sign.",
             "steps": [
                 "Don't act on urgent requests without verifying the sender.",
@@ -373,13 +373,13 @@ def generate_solutions():
             "label": "How to see the real sender address",
             "risk_level": "low",
             "solution": "Sometimes the name you see in your email app is not the real sender. Here's how to check the actual email address.",
-            "reassurance": "You're not expected to know this — email apps hide the real address by default.",
+            "reassurance": "You're not expected to know this â€” email apps hide the real address by default.",
             "steps": [
                 "Gmail: Tap the sender's name, then choose 'Show details'.",
                 "Yahoo Mail: Tap the sender's name and look under 'From'.",
                 "iCloud Mail: Tap the arrow next to the sender's name.",
                 "Outlook (mobile): Tap the sender's name, then 'View email address'.",
-                "Outlook (desktop): Double‑click the message and look at the 'From' field."
+                "Outlook (desktop): Doubleâ€‘click the message and look at the 'From' field."
             ]
         }
     }
@@ -480,21 +480,21 @@ def generate_solutions(reasons: list) -> dict:
             "steps": [
                 "Avoid clicking the link directly from the message.",
                 "If you think it might be real, type the website address yourself into your browser instead of using the link.",
-                "If you’re unsure, ask someone you trust or your IT/help desk (if at work) to review it."
+                "If youâ€™re unsure, ask someone you trust or your IT/help desk (if at work) to review it."
             ]
         },
         "references attachments or downloads": {
             "solution": "This message mentions attachments or downloads, which can sometimes contain harmful files.",
             "steps": [
                 "Do not open the attachment unless you are sure who sent it and why.",
-                "If you must open it, make sure your device’s security software is up to date first.",
-                "If this is work-related, follow your company’s process for handling unexpected attachments."
+                "If you must open it, make sure your deviceâ€™s security software is up to date first.",
+                "If this is work-related, follow your companyâ€™s process for handling unexpected attachments."
             ]
         }
     }
 
     default = {
-        "solution": "This looks somewhat unusual. It may or may not be a problem, but it’s worth a closer look.",
+        "solution": "This looks somewhat unusual. It may or may not be a problem, but itâ€™s worth a closer look.",
         "steps": [
             "Save a copy or screenshot of the message so you have a record.",
             "Watch for any strange activity on your accounts or devices.",
@@ -554,35 +554,6 @@ def index():
     ]
     sample_findings = build_findings(sample_reasons)
     return render_template("index.html", result=sample_result, actions=sample_actions, findings=sample_findings)
-
-@app.route("/analyze", methods=["POST"])
-def analyze():
-    text = request.form.get("message", "").strip()
-    if not text:
-        return redirect(url_for("index"))
-    reasons = analyze_text(text)
-    # build a short, actionable set of next steps based on heuristic reasons
-    if reasons:
-        actions = [
-            "Review the flagged items: " + ", ".join(reasons),
-            "Look over what was flagged so you understand what seemed suspicious.",
-            "Write down when this happened or take a quick screenshot so you don’t forget details.",
-            "If something feels seriously wrong, pause using that device or account for a moment.",
-            "Change your passwords for any accounts that might be affected.",
-            "Sign out of other devices if your account or app has that option.",
-            "If you’re unsure what to do next, ask someone you trust or your IT/help desk to review it with you."
-        ]
-    else:
-        actions = [
-            "No clear warning signs were found, but stay cautious.",
-            "Keep an eye on your accounts and devices for anything unusual.",
-            "If you still feel uneasy about this message, consider asking someone you trust or your IT/help desk to double-check it."
-        ]
-    findings = build_findings(reasons)
-    return render_template("index.html", message=text, actions=actions, findings=findings)
-
-
-@app.route("/set_key", methods=["GET", "POST"])
 def set_key():
     """Admin route (local use only) to set the OpenAI API key and save to a local .env file."""
     from pathlib import Path
